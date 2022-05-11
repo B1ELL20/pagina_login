@@ -7,6 +7,7 @@ class Login {
     public $senha;
     public $registros;
     public $condicao = 0;
+    public $email_cadastrado = 0;
 
     public function __get($name) {
         return $this->$name;
@@ -78,6 +79,19 @@ class Bd {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
+    public function registro() {
+        $query = '
+            insert into
+                tb_cadastro(email, senha)
+            values
+                (:email, :senha)
+        ';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':email', $_GET['email_cad']);
+        $stmt->bindValue(':senha', $_GET['senha1']);
+        $stmt->execute();
+    }
+
 }
 
 $conexao = new Conexao();
@@ -87,21 +101,33 @@ $bd = new Bd($conexao, $login);
 
 $login->__set('registros', $bd->getEmails());
 
-foreach ($login->__get('registros') as $value) {
-    if ($value->email == $_GET['email']) {
 
-        $login->__set('email', $_GET['email']);
-        $login->__set('nome', $bd->getNomeUser());
 
-        foreach ($login->__get('registros') as $v) {
-            if ($v->senha == $_GET['senha']) {
-                $login->__set('senha', $_GET['senha']);
-                $login->__set('condicao', 1);
-                break;
-            } 
+if ($_GET['control'] == 1) {
+
+    foreach($login->__get('registros') as $registros) {
+        if ($_GET['email_cad'] == $registros->email) {
+            $login->__set('email_cadastrado', 1);
+            break; 
+        } else {
+            $login->__set('email_cadastrado', 0);
         }
-        
-    } else {
+    }
+
+    if ($login->__get('email_cadastrado') == 0) {
+        $bd->registro();
+    
+    }
+
+}  else {
+    foreach ($login->__get('registros') as $value) {
+        if ($value->email == $_GET['email'] && $value->senha == $_GET['senha']) {
+    
+            $login->__set('email', $_GET['email']);
+            $login->__set('senha', $_GET['senha']);
+            $login->__set('condicao', 1);
+            break;
+        } 
     }
 }
 

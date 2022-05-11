@@ -37,6 +37,11 @@
                     <button type="submit" id="enviar" class="botao btn btn-lg btn-outline-danger mb-3">Entrar</button>
                     <p class="mensagem" id="msg-email"></p>
                     <p>Não possui uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+                    <?php
+                        if(isset($_GET['invalidado']) && $_GET['invalidado'] == 1) {
+                    ?>
+                        <p>Por favor acesse de forma correta!</p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
