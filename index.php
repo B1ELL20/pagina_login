@@ -27,7 +27,7 @@
 <body class="bg-light">
     <div class="container">
         <div class="row d-flex justify-content-center">
-            <div class="col-md-7 caixa d-flex justify-content-center mt-5" id="carregamento">
+            <div class="col-sm-7 caixa d-flex justify-content-center mt-5" id="carregamento">
                 <div id="sub-caixa" class="text-danger">
                     <div class="caixa-icone mt-3 mb-5"><h1 class="display-1">Login</h1></div>
                     <label><i class="fa-solid fa-at pe-2"></i>Email</label> <br>
